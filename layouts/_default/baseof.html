@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{{ $featuredImagePattern := .Site.Params.featuredImagePattern | default "featuredImage.*" }}
+{{ $featuredImage := .Resources.GetMatch $featuredImagePattern }}
 
 {{ if eq .Type "gallery" }}
     {{ $image := (index (.Resources.ByType "image") 0 ) }}
@@ -12,13 +14,13 @@
 
     {{ .Scratch.Set "image" $imageUrl }}
 
-{{ else if .Resources.GetMatch "featuredImage.*" }}
+{{ else if $featuredImage }}
     {{ $imageUrl := "" }}
 
     {{ if and (.Site.Params.resizeImages | default true) (.Params.resizeImages | default true) }}
-         {{ $imageUrl = ((.Resources.GetMatch "featuredImage.*").Fill "700x350 q95").Permalink }}
+         {{ $imageUrl = ($featuredImage.Fill "700x350 q95").Permalink }}
     {{ else }}
-        {{ $imageUrl = (.Resources.GetMatch "featuredImage.*").Permalink }}
+        {{ $imageUrl = $featuredImage.Permalink }}
     {{ end }}
 
     {{ .Scratch.Set "image" $imageUrl }}

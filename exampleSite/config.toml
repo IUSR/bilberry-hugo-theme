@@ -78,6 +78,9 @@ disqusShortname = ""
     #     even if the image has the correct sizes.
     resizeImages = true
 
+    # customize the page bundle resource search pattern for featured images
+    # featuredImagePattern = "featuredImage.*"
+
   # Header configuration
     # your subtitle if you want to use any
     subtitle = "Hello World! This is the most epic subtitle ever."

@@ -3,12 +3,14 @@
 </span>
 
 <article class="status">
-    {{ if .ctx.Resources.GetMatch "featuredImage.*" }}
+    {{ $featuredImagePattern := .ctx.Site.Params.featuredImagePattern | default "featuredImage.*" }}
+    {{ $featuredImage := .ctx.Resources.GetMatch $featuredImagePattern }}
+    {{ if $featuredImage }}
         <div class="featured-image">
             {{ if and (.ctx.Site.Params.resizeImages | default true) (.ctx.Params.resizeImages | default true) }}
-                <img src="{{ ((.ctx.Resources.GetMatch "featuredImage.*").Fill "700x350 q95").RelPermalink }}" alt="">
+                <img src="{{ ($featuredImage.Fill "700x350 q95").RelPermalink }}" alt="">
             {{ else }}
-                <img src="{{ (.ctx.Resources.GetMatch "featuredImage.*").RelPermalink }}" alt="">
+                <img src="{{ $featuredImage.RelPermalink }}" alt="">
             {{ end }}
         </div>
     {{ else if and (isset .ctx.Params "featuredimage") (ne .ctx.Params.featuredImage "") }}

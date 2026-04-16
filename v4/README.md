@@ -545,8 +545,11 @@ content
 └── article
     └── my-post-with-featured-image
         ├── featuredImage.png
-        └── index.md
+        └── index.md
 ```
+
+If you want to use a different file naming convention, set `params.featuredImagePattern` in your `hugo.toml`.
+The default value is `featuredImage.*`.
 
 #### Automatic Image Resizing
 
@@ -555,8 +558,8 @@ Bilberry theme includes built-in automatic cropping and resizing only for **feat
 parameter to `false` in the `hugo.toml` file. Also, this feature can be disabled at the post level
 by setting the `resizeImages` front matter variable to `false`.
 
-For a featured image to be cropped and resized, it should be named `featuredImage.*` and placed
-within the page bundle's folder.
+For a featured image to be cropped and resized, it should match `params.featuredImagePattern`
+(default: `featuredImage.*`) and be placed within the page bundle's folder.
 
 **NOTE**: a featured image defined via the `featuredImage` front matter parameter will **NOT** be
 cropped and resized.
