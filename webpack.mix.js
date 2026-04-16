@@ -34,11 +34,13 @@ mix.setPublicPath('./static')
     fs.rmdirSync(newFontsPath, {recursive: true, force: true});
   }
 
-  fs.rename(oldFontsPath, newFontsPath, function (err) {
-    if (err) {
-      console.log(err)
-    }
-  })
+  if (fs.existsSync(oldFontsPath)) {
+    fs.rename(oldFontsPath, newFontsPath, function (err) {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
 
   fs.readFile(themeFile, 'utf8', function (err, data) {
     if (err) {
