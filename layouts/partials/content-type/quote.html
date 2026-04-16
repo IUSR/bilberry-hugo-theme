@@ -3,8 +3,11 @@
 </a>
 
 <article class="quote">
+    {{ $featuredImageAlt := partial "featured-image-data.html" .ctx }}
     {{ with .ctx.Params.featuredImage }}
-        <img src="{{ . }}" class="featured-image" alt="">
+        {{ if not (reflect.IsMap .) }}
+        <img src="{{ . | relURL }}" class="featured-image" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+        {{ end }}
     {{ end }}
 
     <blockquote>

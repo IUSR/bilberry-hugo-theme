@@ -1,0 +1,7 @@
+{{- $featuredImageAlt := "" -}}
+{{- if reflect.IsMap .Params.featuredImage -}}
+    {{- with index .Params.featuredImage "alt" -}}
+        {{- $featuredImageAlt = . -}}
+    {{- end -}}
+{{- end -}}
+{{- return $featuredImageAlt -}}

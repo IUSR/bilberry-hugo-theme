@@ -5,17 +5,18 @@
 <article class="status">
     {{ $featuredImagePattern := .ctx.Site.Params.featuredImagePattern | default "featuredImage.*" }}
     {{ $featuredImage := .ctx.Resources.GetMatch $featuredImagePattern }}
+    {{ $featuredImageAlt := partial "featured-image-data.html" .ctx }}
     {{ if $featuredImage }}
         <div class="featured-image">
             {{ if and (.ctx.Site.Params.resizeImages | default true) (.ctx.Params.resizeImages | default true) }}
-                <img src="{{ ($featuredImage.Fill "700x350 q95").RelPermalink }}" alt="">
+                <img src="{{ ($featuredImage.Fill "700x350 q95").RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
             {{ else }}
-                <img src="{{ $featuredImage.RelPermalink }}" alt="">
+                <img src="{{ $featuredImage.RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
             {{ end }}
         </div>
-    {{ else if and (isset .ctx.Params "featuredimage") (ne .ctx.Params.featuredImage "") }}
+    {{ else if and (not (reflect.IsMap .ctx.Params.featuredImage)) (isset .ctx.Params "featuredimage") (ne .ctx.Params.featuredImage "") }}
         <div class="featured-image">
-            <img src="{{ .ctx.Params.featuredImage | relURL }}" alt="">
+            <img src="{{ .ctx.Params.featuredImage | relURL }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
         </div>
     {{ end }}
 

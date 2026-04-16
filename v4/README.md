@@ -551,6 +551,17 @@ content
 If you want to use a different file naming convention, set `params.featuredImagePattern` in your `hugo.toml`.
 The default value is `featuredImage.*`.
 
+When using the page-bundle approach, you can optionally add alternative text for the featured image in the post's
+front matter:
+
+```toml
+[featuredImage]
+alt = "A short description of the featured image"
+```
+
+This only adds the image's `alt` text. The image source still follows the existing `featuredImage.*` page-bundle
+convention.
+
 #### Automatic Image Resizing
 
 Bilberry theme includes built-in automatic cropping and resizing only for **featured** and **gallery**

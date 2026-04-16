@@ -79,7 +79,7 @@ disqusShortname = ""
     resizeImages = true
 
     # customize the page bundle resource search pattern for featured images
-    # featuredImagePattern = "featuredImage.*"
+    featuredImagePattern = "featuredImage.*"
 
   # Header configuration
     # your subtitle if you want to use any

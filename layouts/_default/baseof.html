@@ -25,7 +25,7 @@
 
     {{ .Scratch.Set "image" $imageUrl }}
 
-{{ else if .Params.featuredImage }}
+{{ else if and (not (reflect.IsMap .Params.featuredImage)) .Params.featuredImage }}
   {{ .Scratch.Set "image" (.Params.featuredImage | absURL) }}
 {{ else if .Params.mp4videoImage }}
   {{ .Scratch.Set "image" (.Params.mp4videoImage | absURL) }}
