@@ -1,6 +1,11 @@
 {{ $featuredImagePattern := .Site.Params.featuredImagePattern | default "featuredImage.*" }}
 {{ $featuredImage := .Resources.GetMatch $featuredImagePattern }}
 {{ $featuredImageAlt := partial "featured-image-data.html" . }}
+{{ $featuredImageSrc := partial "featured-image-src.html" . }}
+{{ $featuredImageSrcResource := "" }}
+{{ if ne $featuredImageSrc "" }}
+    {{ $featuredImageSrcResource = .Resources.GetMatch $featuredImageSrc }}
+{{ end }}
 {{ if $featuredImage }}
     <div class="featured-image">
         <a href="{{ .Permalink }}">
@@ -15,6 +20,20 @@
     <div class="featured-image">
         <a href="{{ .Permalink }}">
             <img src="{{ .Params.featuredImage | relURL }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+        </a>
+    </div>
+{{ else if ne $featuredImageSrc "" }}
+    <div class="featured-image">
+        <a href="{{ $.Permalink }}">
+            {{ if $featuredImageSrcResource }}
+                {{ if and (.Site.Params.resizeImages | default true) (.Params.resizeImages | default true) }}
+                    <img src="{{ ($featuredImageSrcResource.Fill "700x350 q95").RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+                {{ else }}
+                    <img src="{{ $featuredImageSrcResource.RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+                {{ end }}
+            {{ else }}
+                <img src="{{ $featuredImageSrc | relURL }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+            {{ end }}
         </a>
     </div>
 {{ end }}

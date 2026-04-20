@@ -1,0 +1,7 @@
+{{- $featuredImageSrc := "" -}}
+{{- if reflect.IsMap .Params.featuredImage -}}
+    {{- with index .Params.featuredImage "src" -}}
+        {{- $featuredImageSrc = . -}}
+    {{- end -}}
+{{- end -}}
+{{- return $featuredImageSrc -}}

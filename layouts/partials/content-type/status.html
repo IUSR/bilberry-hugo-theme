@@ -6,6 +6,11 @@
     {{ $featuredImagePattern := .ctx.Site.Params.featuredImagePattern | default "featuredImage.*" }}
     {{ $featuredImage := .ctx.Resources.GetMatch $featuredImagePattern }}
     {{ $featuredImageAlt := partial "featured-image-data.html" .ctx }}
+    {{ $featuredImageSrc := partial "featured-image-src.html" .ctx }}
+    {{ $featuredImageSrcResource := "" }}
+    {{ if ne $featuredImageSrc "" }}
+        {{ $featuredImageSrcResource = .ctx.Resources.GetMatch $featuredImageSrc }}
+    {{ end }}
     {{ if $featuredImage }}
         <div class="featured-image">
             {{ if and (.ctx.Site.Params.resizeImages | default true) (.ctx.Params.resizeImages | default true) }}
@@ -17,6 +22,18 @@
     {{ else if and (not (reflect.IsMap .ctx.Params.featuredImage)) (isset .ctx.Params "featuredimage") (ne .ctx.Params.featuredImage "") }}
         <div class="featured-image">
             <img src="{{ .ctx.Params.featuredImage | relURL }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+        </div>
+    {{ else if ne $featuredImageSrc "" }}
+        <div class="featured-image">
+            {{ if $featuredImageSrcResource }}
+                {{ if and (.ctx.Site.Params.resizeImages | default true) (.ctx.Params.resizeImages | default true) }}
+                    <img src="{{ ($featuredImageSrcResource.Fill "700x350 q95").RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+                {{ else }}
+                    <img src="{{ $featuredImageSrcResource.RelPermalink }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+                {{ end }}
+            {{ else }}
+                <img src="{{ $featuredImageSrc | relURL }}" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+            {{ end }}
         </div>
     {{ end }}
 

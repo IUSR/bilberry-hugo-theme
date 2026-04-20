@@ -4,10 +4,20 @@
 
 <article class="link">
     {{ $featuredImageAlt := partial "featured-image-data.html" .ctx }}
+    {{ $featuredImageSrc := partial "featured-image-src.html" .ctx }}
+    {{ $featuredImageSrcResource := "" }}
+    {{ if ne $featuredImageSrc "" }}
+        {{ $featuredImageSrcResource = .ctx.Resources.GetMatch $featuredImageSrc }}
+    {{ end }}
     {{ with .ctx.Params.featuredImage }}
         {{ if not (reflect.IsMap .) }}
         <img src="{{ . | relURL }}" class="featured-image" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
         {{ end }}
+    {{ end }}
+    {{ if $featuredImageSrcResource }}
+        <img src="{{ $featuredImageSrcResource.RelPermalink }}" class="featured-image" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
+    {{ else if ne $featuredImageSrc "" }}
+        <img src="{{ $featuredImageSrc | relURL }}" class="featured-image" alt="{{ $featuredImageAlt }}"{{ with $featuredImageAlt }} title="{{ . }}"{{ end }}>
     {{ end }}
     <a href="{{ .ctx.Params.link }}" target="_blank">
         <h4>{{ .ctx.Title }}</h4>
